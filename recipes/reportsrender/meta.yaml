@@ -1,0 +1,58 @@
+{% set name = "reportsrender" %}
+{% set version = "0.1" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url:  https://github.com/grst/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: 07a411d47ca9353b3795e5d16573c3fe89027eed224059e0c0ae8bde89dcbc5d
+  folder: "{{ name }}-{{ version }}"
+
+build:
+  noarch: python
+  number: 0
+  script:
+    - cd "{{ name }}-{{ version }}"
+    - "{{ PYTHON }} -m flit install --deps none"
+
+requirements:
+  host:
+    - python >=3.6
+    - flit >=1.3
+  run:
+    - python >=3.6
+    - r-base >=3.5
+    - r-rmarkdown
+    - r-reticulate
+    - r-bookdown
+    - pandoc
+    - docopt
+    - ipython
+    - jupytext
+    - papermill
+    - nbconvert
+    - ipykernel
+    - get_version
+
+test:
+  imports:
+    - reportsrender
+  commands:
+    - reportsrender -h
+
+about:
+  home: https://github.com/grst/reportsrender
+  license: MIT
+  license_family: MIT
+  license_file: {{ name }}-{{ version }}/LICENSE
+  summary: 'Consistently render Rmarkdown documents and jupyter notebooks to HTML'
+  description: |
+    Consistently render Rmarkdown documents and jupyter notebooks to HTML.
+    Built with pipelining enginesin mind.
+  dev_url: https://github.com/grst/reportsrender
+
+extra:
+  recipe-maintainers:
+    - grst
